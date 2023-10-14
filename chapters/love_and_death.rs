@@ -39,6 +39,7 @@ mod tests {
             IsHeartbroken { me: Nobody },
         ];
         assert_eq!(storyteller::act(&storydeck), events);
+        assert!(storyteller::is_heartbroken(&events, Eve)); // eve is heartbroken
     }
 
     #[test]

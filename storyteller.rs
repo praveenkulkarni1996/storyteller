@@ -30,6 +30,17 @@ fn is_alive(eventlog: &Log, name: Name) -> bool {
     return true;
 }
 
+pub fn is_heartbroken(eventlog: &Log, name: Name) -> bool {
+    for event in eventlog.iter().rev() {
+        match *event {
+            Event::IsHeartbroken { me } if me == name => return true,
+            Event::InLove { me, .. } if me == name => return false,
+            _ => {}
+        };
+    }
+    return false;
+}
+
 fn enact(scene: Scene, log: &Log) -> Log {
     use crate::Event::*;
     use crate::Name::*;
