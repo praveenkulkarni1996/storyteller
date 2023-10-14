@@ -12,7 +12,14 @@ enum Scene {
     Death { grave: Name, witness: Name },
 }
 
+enum Event {
+    InLove { me: Name, partner: Name },
+    Dies { me: Name },
+    IsHeartbroken { me: Name },
+}
+
 type Story = VecDeque<Scene>;
+type Log = VecDeque<Event>;
 
 fn main() {
     println!("hello world!");
@@ -24,7 +31,7 @@ mod tests {
     use crate::Name::*;
 
     #[test]
-    fn test_everyone_dies() {
+    fn test_eve_dies_heartbroken() {
         let storydeck: VecDeque<Scene> = VecDeque::from(vec![
             Scene::Love {
                 left: Adam,
