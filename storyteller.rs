@@ -4,11 +4,11 @@ use std::collections::VecDeque;
 enum Name {
     Adam,
     Eve,
-    Nobody
+    Nobody,
 }
 
 enum Scene {
-    Love { left: Name, right : Name },
+    Love { left: Name, right: Name },
     Death { grave: Name, witness: Name },
 }
 
@@ -26,9 +26,18 @@ mod tests {
     #[test]
     fn test_everyone_dies() {
         let storydeck: VecDeque<Scene> = VecDeque::from(vec![
-            Scene::Love { left: Adam, right: Eve },
-            Scene::Death { grave: Adam, witness: Eve}, 
-            Scene::Death { grave: Eve, witness: Nobody},
+            Scene::Love {
+                left: Adam,
+                right: Eve,
+            },
+            Scene::Death {
+                grave: Adam,
+                witness: Eve,
+            },
+            Scene::Death {
+                grave: Eve,
+                witness: Nobody,
+            },
         ]);
         assert_eq!(storydeck.len(), 3);
     }
@@ -36,9 +45,18 @@ mod tests {
     #[test]
     fn test_seeing_the_ghost_of_a_lover() {
         let storydeck: VecDeque<Scene> = VecDeque::from(vec![
-            Scene::Love { left: Adam, right: Eve },
-            Scene::Death { grave: Adam, witness: Eve}, 
-            Scene::Love { left: Adam, right: Eve },
+            Scene::Love {
+                left: Adam,
+                right: Eve,
+            },
+            Scene::Death {
+                grave: Adam,
+                witness: Eve,
+            },
+            Scene::Love {
+                left: Adam,
+                right: Eve,
+            },
         ]);
         assert_eq!(storydeck.len(), 3);
     }
