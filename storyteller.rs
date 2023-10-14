@@ -13,7 +13,7 @@ pub enum Scene {
 
 #[derive(Eq, PartialEq, Debug, Clone, Copy)]
 pub enum Event {
-    InLove { me: Name, partner: Name },
+    InLove { me: Name, with: Name },
     Dies { me: Name },
     IsHeartbroken { me: Name },
 }
@@ -40,11 +40,11 @@ fn enact(scene: Scene, log: &Log) -> Log {
                 vec![
                     InLove {
                         me: left,
-                        partner: right,
+                        with: right,
                     },
                     InLove {
                         me: right,
-                        partner: left,
+                        with: left,
                     },
                 ]
             } else {

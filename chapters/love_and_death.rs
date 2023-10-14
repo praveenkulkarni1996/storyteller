@@ -27,11 +27,11 @@ mod tests {
         let events: Log = vec![
             InLove {
                 me: Adam,
-                partner: Eve,
+                with: Eve,
             },
             InLove {
                 me: Eve,
-                partner: Adam,
+                with: Adam,
             },
             Dies { me: Adam },
             IsHeartbroken { me: Eve },
