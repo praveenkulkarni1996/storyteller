@@ -1,4 +1,6 @@
 // This is the storyteller game model.
+use storyteller::Event::*;
+use storyteller::Log;
 use storyteller::Name::{Adam, Eve, Nobody};
 use storyteller::Scene;
 
@@ -22,8 +24,21 @@ mod tests {
                 witness: Nobody,
             },
         ];
-        storyteller::act(&storydeck);
-        assert_eq!(storydeck.len(), 3);
+        let events: Log = vec![
+            InLove {
+                me: Adam,
+                partner: Eve,
+            },
+            InLove {
+                me: Eve,
+                partner: Adam,
+            },
+            Dies { me: Adam },
+            IsHeartbroken { me: Eve },
+            Dies { me: Eve },
+            IsHeartbroken { me: Nobody },
+        ];
+        assert_eq!(storyteller::act(&storydeck), events);
     }
 
     #[test]
