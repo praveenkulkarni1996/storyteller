@@ -21,11 +21,12 @@ pub enum Event {
 pub type Story = Vec<Scene>;
 pub type Log = Vec<Event>;
 
-fn is_alive(eventlog: &Log, name: Name) -> bool {
+pub fn is_alive(eventlog: &Log, name: Name) -> bool {
     for event in eventlog.iter().rev() {
-        if *event == (Event::Dies { me: name }) {
-            return false;
-        }
+        match *event {
+            Event::Dies { me } if me == name => return false,
+            _ => {}
+        };
     }
     return true;
 }
