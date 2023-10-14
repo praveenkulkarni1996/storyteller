@@ -21,7 +21,7 @@ pub enum Event {
 pub type Story = Vec<Scene>;
 pub type Log = Vec<Event>;
 
-fn enact(scene: Scene, log: Log) -> Log {
+fn enact(scene: Scene, log: &Log) -> Log {
     use crate::Event::*;
     use crate::Name::*;
     use crate::Scene::*;
@@ -38,14 +38,16 @@ fn enact(scene: Scene, log: Log) -> Log {
         ],
         Death { grave, witness } => vec![Dies { me: grave }, IsHeartbroken { me: witness }],
     };
-    dbg!(&events);
     return events;
 }
 
 pub fn act(scenes: &[Scene]) {
+    let mut log: Log = Vec::new();
     for scene in scenes {
-        enact(*scene, vec![]);
+        let actions: Log = enact(*scene, &log);
+        log.extend(actions);
     }
+    dbg!(&log);
 }
 
 fn main() {
