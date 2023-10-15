@@ -16,6 +16,7 @@ pub enum Event {
     InLove { me: Name, with: Name },
     Dies { me: Name },
     IsHeartbroken { me: Name },
+    IsScaredByGhost { me: Name, ghost: Name },
 }
 
 pub type Story = Vec<Scene>;
@@ -47,22 +48,29 @@ fn enact(scene: Scene, log: &Log) -> Log {
     use crate::Name::*;
     use crate::Scene::*;
     let events = match scene {
-        Love { left, right } => {
-            if is_alive(log, left) && is_alive(log, right) {
-                vec![
-                    InLove {
-                        me: left,
-                        with: right,
-                    },
-                    InLove {
-                        me: right,
-                        with: left,
-                    },
-                ]
-            } else {
-                vec![]
-            }
+        Love { left, right } if is_alive(log, left) && is_alive(log, right) => vec![
+            InLove {
+                me: left,
+                with: right,
+            },
+            InLove {
+                me: right,
+                with: left,
+            },
+        ],
+        Love { left, right } if is_alive(log, left) && !is_alive(log, right) => {
+            vec![IsScaredByGhost {
+                me: left,
+                ghost: right,
+            }]
         }
+        Love { left, right } if !is_alive(log, left) && is_alive(log, right) => {
+            vec![IsScaredByGhost {
+                me: right,
+                ghost: left,
+            }]
+        }
+        Love { .. } => vec![],
         Death { grave, witness } => vec![Dies { me: grave }, IsHeartbroken { me: witness }],
     };
     return events;
